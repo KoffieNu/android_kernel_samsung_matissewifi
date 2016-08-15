@@ -59,6 +59,11 @@
 #include "modem_notifier.h"
 #include "spm-regulator.h"
 
+#ifdef CONFIG_SEC_THERMISTOR
+#include <mach/sec_thermistor.h>
+#include <mach/msm8x26-thermistor.h>
+#endif
+
 static struct memtype_reserve msm8226_reserve_table[] __initdata = {
 	[MEMTYPE_SMI] = {
 	},
@@ -111,6 +116,12 @@ static void __init msm8226_early_memory(void)
 	of_scan_flat_dt(dt_scan_for_memory_hole, msm8226_reserve_table);
 }
 
+static struct platform_device *common_devices[] __initdata = {
+#ifdef CONFIG_SEC_THERMISTOR
+    &sec_device_thermistor,
+#endif
+};
+
 static void __init msm8226_reserve(void)
 {
 	reserve_info = &msm8226_reserve_info;
@@ -158,6 +169,7 @@ void __init msm8226_init(void)
 	msm8226_init_gpiomux();
 	board_dt_populate(adata);
 	msm8226_add_drivers();
+	platform_add_devices(common_devices, ARRAY_SIZE(common_devices));
 }
 
 static const char *msm8226_dt_match[] __initconst = {
