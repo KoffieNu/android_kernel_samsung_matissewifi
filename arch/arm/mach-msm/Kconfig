@@ -697,6 +697,13 @@ config MSM_REMOTE_SPINLOCK_SFPB
 config MSM_ADM3
 	bool
 
+config SEC_MATISSE_PROJECT
+	bool "MATISSE Projects"
+        default n
+        help
+         Common flag for all the Matisse Models and variants. Please use this flag for all
+	 the features common in all the Matisse Variants(3G,LTE,Wifi & Carrier).
+
 menu "MSM Board Selection"
 
 config MACH_HALIBUT
